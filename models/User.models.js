@@ -51,6 +51,11 @@ const UserSchema = new Schema(
       unique: true,
       index: true,
     },
+    organization: {
+      type: Schema.Types.ObjectId,
+      ref: 'Organization',
+      required: true,
+    },
     credits: {
       type: Number,
       min: 0,

@@ -18,6 +18,5 @@ projectRouter.get('/status/:status', findByProjectStatus);
 projectRouter.get('/priority/:priority', findByPriortiy);
 projectRouter.put('/status/:id', changeProjectStatus);
 projectRouter.put('/priority/:id', changePriority);
-projectRouter.put('/prd/:id', updatePRD);
 
 export default projectRouter;
