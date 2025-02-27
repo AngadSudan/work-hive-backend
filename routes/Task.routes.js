@@ -13,6 +13,6 @@ taskRouter.post('/create', createTask);
 taskRouter.put('/change-status/:id', changeTaskStatus);
 taskRouter.put('/change-priority/:id', changeTaskPriority);
 taskRouter.post('/:id/add-review', addReview);
-taskRouter.post('/:id/update-review', updateReview);
-taskRouter.delete('/:id', deleteReview);
+taskRouter.post('/:review', updateReview);
+taskRouter.delete('/:review', deleteReview);
 export default taskRouter;

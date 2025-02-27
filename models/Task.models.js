@@ -13,6 +13,11 @@ const TaskSchema = new Schema(
       trim: true,
       maxLength: 500,
     },
+    project: {
+      type: Schema.Types.ObjectId,
+      ref: 'Project',
+      required: true,
+    },
     allotedTeam: {
       type: Schema.Types.ObjectId,
       ref: 'Team',
