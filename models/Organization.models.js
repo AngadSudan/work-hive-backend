@@ -10,13 +10,6 @@ const OrganizationSchema = new Schema(
       minLength: 5,
       lowercase: true,
     },
-    organizationRegestrationNumber: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      index: true,
-    },
     status: {
       type: String,
       enum: ['active', 'inactive'],
@@ -24,10 +17,14 @@ const OrganizationSchema = new Schema(
     },
     description: {
       type: String,
-      required: true,
       minLength: 10,
       lowercase: true,
       trim: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minLength: 6,
     },
   },
   { timestamps: true }

@@ -7,8 +7,7 @@ dotenv.config();
 
 const registerUser = async (req, res) => {
   const {
-    firstName,
-    lastName,
+    name,
     email,
     password,
     role,
@@ -18,10 +17,9 @@ const registerUser = async (req, res) => {
   } = req.body;
 
   // Validation checks
-  if (!firstName)
-    return res.status(400).json(new ApiError(400, 'First name is required'));
-  if (!lastName)
-    return res.status(400).json(new ApiError(400, 'Last name is required'));
+  if (!name) {
+    return res.status(400).json(new ApiError(400, 'Name is required'));
+  }
   if (!email)
     return res.status(400).json(new ApiError(400, 'Email is required'));
   if (!password)
@@ -35,51 +33,16 @@ const registerUser = async (req, res) => {
   if (!organization)
     return res.status(400).json(new ApiError(400, 'Organization is required'));
 
-  // Optional address validation
-  let coordinate;
-  if (street && city && state && pincode) {
-    coordinate = await getCoordinatesFromAddress({
-      street,
-      city,
-      state,
-      pincode,
-    });
-
-    if (!coordinate)
-      return res
-        .status(400)
-        .json(new ApiError(400, 'Error while geocoding address'));
-  }
-
-  // Handle profile image upload if provided
-  let profileImageUrl;
-  if (profileImage) {
-    try {
-      profileImageUrl = await CloudinaryUpload(profileImage);
-    } catch (error) {
-      return res
-        .status(500)
-        .json(
-          new ApiError(500, 'Something went wrong in image uploading', [
-            error.message,
-          ])
-        );
-    }
-  }
-
   // Create the user
   try {
     const createdUser = await User.create({
-      firstName,
-      lastName,
+      name,
       email,
       password,
       role: role || 'employee',
       employeeNumber,
       userName,
       organization,
-      profileImageUrl,
-      coordinate,
       isActive: true,
     });
 
@@ -228,10 +191,10 @@ const changeRole = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { email, userName, password } = req.body;
+  const { email, password } = req.body;
 
   // Check if email or username is provided
-  if (!email && !userName) {
+  if (!email) {
     return res
       .status(400)
       .json(new ApiError(400, 'Email or username is required'));
@@ -244,7 +207,7 @@ const loginUser = async (req, res) => {
   try {
     // Find user by email or username
     const user = await User.findOne({
-      $or: [{ email }, { userName }],
+      email,
     });
 
     if (!user) {
@@ -258,46 +221,9 @@ const loginUser = async (req, res) => {
       return res.status(401).json(new ApiError(401, 'Invalid credentials'));
     }
 
-    // Generate JWT token - assuming you have a method for this
-    const token = jwt.sign(
-      {
-        _id: user._id,
-        role: user.role,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '1d' }
-    );
-
-    // Generate refresh token
-    const refreshToken = jwt.sign(
-      { _id: user._id },
-      process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: '30d' }
-    );
-
-    // Update user's refresh token in DB
-    user.refreshToken = refreshToken;
-    await user.save();
-
-    // Set secure cookies
-    res.cookie('accessToken', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-    });
-
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-    });
-
-    const userWithoutSensitiveInfo = user.toObject();
-    delete userWithoutSensitiveInfo.password;
-    delete userWithoutSensitiveInfo.refreshToken;
-
     return res.status(200).json(
       new ApiResponse(200, 'Login successful', {
-        user: userWithoutSensitiveInfo,
-        accessToken: token,
+        user: user,
       })
     );
   } catch (error) {

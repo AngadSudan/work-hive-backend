@@ -4,8 +4,8 @@ import Project from '../models/Project.models.js';
 import User from '../models/User.models.js';
 import { CloudinaryUpload } from '../utils/Cloudinary.js';
 const createProject = async (req, res) => {
-  const user = req.user._id;
   const {
+    user,
     name,
     description,
     organizationId,
@@ -13,7 +13,6 @@ const createProject = async (req, res) => {
     IdleDeadline,
     projectStatus,
     priority,
-    createdBy,
   } = req.body;
 
   if (
@@ -74,7 +73,7 @@ const createProject = async (req, res) => {
       priority,
       prd: prdfileImageLink || '',
       status: 'active',
-      createdBy,
+      createdBy: user,
     };
     const createdProject = await Project.create(project);
     if (!createdProject)

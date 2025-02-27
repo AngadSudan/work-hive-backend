@@ -9,7 +9,7 @@ import {
 const organizationRouter = Router();
 
 organizationRouter.get('/:id', getOrganizationById);
-organizationRouter.post('/', createOrganization);
+organizationRouter.post('/create', createOrganization);
 organizationRouter.put('/:id', updateOrganization);
 organizationRouter.delete('/:id', deleteOrganization);
 

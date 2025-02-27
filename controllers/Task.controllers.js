@@ -191,6 +191,23 @@ const getTaskForUser = async (req, res) => {
     return res.status(500).json(new ApiError(500, 'internal error occured'));
   }
 };
+const getOneTask = async (req, res) => {
+  const { user } = req.body;
+
+  try {
+    const tasks = await Task.findOne({
+      allotedTo: user,
+      status: { $nin: ['completed', 'inactive'] },
+    });
+    if (!tasks)
+      return res.status(200).json(new ApiResponse(200, 'no task found'));
+
+    return res.status(200).json(new ApiResponse(200, 'task found', tasks));
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(new ApiError(500, 'internal error occured'));
+  }
+};
 const getTaskForProject = async (req, res) => {
   const user = req.user._id;
   const project = req.params.id;
@@ -356,4 +373,5 @@ export {
   getTaskForUser,
   getTaskForProject,
   deleteReview,
+  getOneTask,
 };
