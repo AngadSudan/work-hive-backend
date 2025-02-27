@@ -5,14 +5,10 @@ import User from '../models/User.models.js';
 import Project from '../models/Project.models.js';
 import Comment from '../models/Comment.models.js';
 const createTask = async (req, res) => {
-  const user = req.user._id;
-
-  if (!user)
-    return res.status(400).json(new ApiError(400, 'user token not found'));
-
   const {
     name,
     description,
+    user,
     allotedTeam,
     allotedTo,
     deadline,
@@ -20,17 +16,6 @@ const createTask = async (req, res) => {
     credits,
     negativeReward,
   } = req.body;
-
-  if (
-    !name ||
-    !description ||
-    !allotedTeam ||
-    !allotedTo ||
-    !priority ||
-    !deadline
-  ) {
-    return res.status(400).json(new ApiError(400, 'need basic informations'));
-  }
 
   try {
     const dbUser = await User.findById(user);
