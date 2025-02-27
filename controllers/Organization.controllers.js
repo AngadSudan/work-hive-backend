@@ -10,7 +10,7 @@ const deleteOrganization = async (req, res) => {};
 
 const getOrganizationById = async (req, res) => {};
 
-export default {
+export {
   createOrganization,
   updateOrganization,
   deleteOrganization,

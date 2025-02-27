@@ -49,8 +49,8 @@ const TaskSchema = new Schema(
     },
     negativeRewards: {
       type: Number,
-      min: 0,
-      default: 0,
+      max: 0,
+      default: -100,
     },
   },
   { timestamps: true }

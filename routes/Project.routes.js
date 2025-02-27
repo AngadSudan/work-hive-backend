@@ -7,7 +7,7 @@ import {
   findByPriortiy,
   changeProjectStatus,
   changePriority,
-  updatePRD,
+  // updatePRD,
 } from '../controllers/Project.controllers.js';
 
 const projectRouter = Router();
