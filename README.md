@@ -1,4 +1,4 @@
-# Node.js & Express.js Project
+# Work-Hive Backend
 
 ## 🚀 Introduction
 This is a Node.js and Express.js-based project that includes controllers, middleware, models, routes, and utilities for backend operations. It integrates with a frontend and is configured for deployment.
@@ -84,9 +84,5 @@ DELETE /api/tasks/:id # Delete a task
 - Make your changes.
 - Submit a pull request.
 
-## 📜 License
-This project is licensed under the **MIT License**.
 
----
-Feel free to contribute and enhance this project! 🚀
 
