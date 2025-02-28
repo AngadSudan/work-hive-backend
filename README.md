@@ -10,6 +10,11 @@ Ensure you have the following installed:
 - [Git](https://git-scm.com/) (optional, for version control)
 - [VS Code](https://code.visualstudio.com/) (recommended code editor)
 
+👥 Frontend Repository
+
+This project integrates with a frontend built using React. You can find the frontend repository here:
+https://github.com/AngadSudan/work-hive#
+
 ## 📥 Installation & Setup
 ### 1️⃣ Clone the Repository
 ```sh
